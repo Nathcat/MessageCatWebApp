@@ -133,4 +133,8 @@ export class AppComponent {
       return "friend-messages";
     }
   }
+
+  IsUserMessage(senderID: string) {
+    return senderID == this.GetSessionValueNullSafe("ID");
+  }
 }

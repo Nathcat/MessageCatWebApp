@@ -92,6 +92,7 @@
     flex-direction: column;
 }
 
+/*
 .friend-messages {
     text-align:left;
     margin-left:10px;
@@ -100,4 +101,65 @@
 .user-messages {
     text-align: right;
     margin-right:10px;
+}
+*/
+
+.friend-messages {
+    display:flex;
+  height: fit-content;
+  min-width: 40px;
+  width: fit-content;
+  background: #4151af;
+  position: relative;
+  cursor:pointer;
+    color: white;
+    padding: 10px;
+    border-radius:25px;
+}
+.friend-messages:before {
+  content: "";
+  position: absolute;
+  top: -webkit-calc(100% - 10px); /*may require prefix for old browser support*/
+  top: calc(100% - 10px); /*i.e. half the height*/
+  left: 20px;
+  height: 20px;
+  width: 20px;
+  background: #4151af;
+  transform: rotate(45deg);
+  border-bottom:inherit;
+  border-right:inherit;
+  box-shadow:inherit;
+}
+
+.user-messages {
+    display:flex;
+    height: fit-content;
+    min-width: 40px;
+    width: fit-content;
+    background: rgb(200, 200, 200);
+    position:relative;
+    cursor:pointer;
+    color: black;
+    padding: 10px;
+    border-radius:25px;
+    right:50%;
+}
+.user-messages:before {
+  content: "";
+  position: absolute;
+  top: -webkit-calc(100% - 10px); /*may require prefix for old browser support*/
+  top: calc(100% - 10px); /*i.e. half the height*/
+  right: 20px;
+  height: 20px;
+  width: 20px;
+  background: rgb(200, 200, 200);
+  transform: rotate(45deg);
+  border-bottom:inherit;
+  border-right:inherit;
+  box-shadow:inherit;
+}
+
+.message-row {
+    display: flex;
+    flex-direction: row;
 }

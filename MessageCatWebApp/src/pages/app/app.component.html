@@ -47,7 +47,10 @@
         <!--Conversation content-->
         <span class="conversation-messages-container">
             <div class="messages">
-                <p *ngFor="let message of messages" class="{{GetMessageClassName(Json.parse(message).senderID)}}">{{Json.parse(message).content}}</p>
+                <div class="message-row" *ngFor="let message of messages">
+                    <span *ngIf="IsUserMessage(Json.parse(message).senderID)" class="big-spacer"></span>
+                    <p class="{{GetMessageClassName(Json.parse(message).senderID)}}">{{Json.parse(message).content}}</p>
+                </div>
             </div>
         </span>
 
