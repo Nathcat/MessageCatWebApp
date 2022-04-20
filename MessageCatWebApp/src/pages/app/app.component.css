@@ -1,0 +1,101 @@
+.space {
+    width: 10px;
+    height: auto;
+    display: inline-block;
+}
+
+.drawer-container {
+    width: 100%;
+    height: 93.7%;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.drawer-content {
+    width: fit-content;
+    height: 100%;
+}
+
+.contact-box {
+    width: 300px;
+    height: 50px;
+}
+
+.contact-content {
+    display:flex;
+    padding: 20px;
+    place-items: center center;
+}
+
+.no-friends-span {
+    vertical-align: center;
+}
+
+.no-friends-message {
+    width: 300px;
+    height: 100px;
+    text-align: center;
+}
+
+.no-friend-selected-message {
+    text-align: center;
+}
+
+.big-spacer {
+    flex: 1 1 auto;
+}
+
+.user-pfp {
+    width: 30px;
+    height: 30px;
+}
+
+.conversation-container {
+    display:flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+    width: 100%;
+}
+
+/*.message-box {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    place-items: center center;
+    width: 100%;
+    height: fit-content;
+}*/
+
+.message-field {
+    margin-left: 5px;
+    width: 80%;
+    align-items: center;
+}
+
+.send-message-button {
+    margin-left:10px;
+    align-items: center;
+}
+
+.conversation-messages-container {
+    flex-grow: 1;
+}
+
+.conversation-toolbar {
+    display: flex;
+    flex-direction: row;
+    place-items: center center;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.friend-messages {
+    text-align:left;
+}
+
+.user-messages {
+    text-align: right;
+}

@@ -1,0 +1,68 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Menu" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    
+    <div class="space"></div>
+
+    <span>MessageCat</span>
+
+    <span class="big-spacer"></span>
+    <span>
+        <button mat-icon-button (click)="OpenUserSettings()">
+            <img class="user-pfp" src="{{pfp_path}}" />
+        </button>
+
+        <button mat-raised-button color="secondary" (click)="Logout()">Logout</button>
+
+    </span>
+</mat-toolbar>
+
+<mat-drawer-container class="drawer-container" autosize>
+    <!--Sidebar-->
+    <mat-drawer class="drawer-content" #drawer mode="side" opened>
+        <p class="no-friends-message" *ngIf="friends.length == 0">It looks a little quiet here...</p>
+
+        <div *ngFor="let friend of friends" class="contact-box" >
+            <span matRipple [matRippleColor]="contactBoxRippleColour" class="contact-content" (click)="selectedFriendString=friend">
+                <img class="user-pfp" src="{{pfp_req_url + Json.parse(friend).pfp_path}}">
+                <div class="space"></div>
+                <p>{{Json.parse(friend).username}}</p>
+            </span>
+            <mat-divider></mat-divider>
+        </div>
+    </mat-drawer>
+
+    <!--Main content, this is the conversation view-->
+    <div class="conversation-container">
+        <mat-toolbar color="secondary">
+            <p *ngIf="selectedFriendString == ''" class="no-friend-selected-message">No conversation selected</p>
+            <div class="conversation-toolbar" *ngIf="selectedFriendString != ''">
+                <img class="user-pfp" src="{{pfp_req_url + Json.parse(selectedFriendString).pfp_path}}">
+                <div class="space"></div>
+                <p>{{Json.parse(selectedFriendString).username}}</p>
+            </div>
+        </mat-toolbar>
+
+        <!--Conversation content-->
+        <span class="conversation-messages-container">
+            <div class="messages">
+                <p *ngFor="let message of messages" class="{{GetMessageClassName(Json.parse(message).senderID)}}">{{Json.parse(message).content}}</p>
+            </div>
+        </span>
+
+        <!--Message bar-->
+        <mat-divider></mat-divider>
+        <span>
+           <mat-form-field class="message-field" appearance="outline">
+              <input matInput [(ngModel)]="message" placeholder="Enter message">
+              <button *ngIf="message" matSuffix mat-icon-button aria-label="Clear" (click)="message=''">
+                  <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <button *ngIf="message != ''" mat-raised-button class="send-message-button" color="primary" (click)="SendMessage()">Send</button>
+            <button *ngIf="message == ''" mat-raised-button class="send-message-button" disabled>Send</button>
+        </span>
+    </div>
+</mat-drawer-container>

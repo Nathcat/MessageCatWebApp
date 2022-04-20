@@ -1,0 +1,59 @@
+<head>
+  <title>{{title}}</title>
+</head>
+
+<div class="login_box" name="login_box">
+  <h2>Create New User</h2>
+
+  <!--Email field-->
+  <mat-form-field class="form_field" appearance="fill">
+    <mat-label>Enter email</mat-label>
+    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher" [(ngModel)]="email">
+    <button *ngIf="email" matSuffix mat-icon-button aria-label="Clear" (click)="email=''">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <!--Username field-->
+  <mat-form-field class="form_field" appearance="fill" >
+    <mat-label>Enter username</mat-label>
+    <input type="text" matInput [formControl]="usernameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="username">
+    <button *ngIf="username" matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-error *ngIf="usernameFormControl.hasError('required')">
+      Username is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <!--Password field-->
+  <mat-form-field class="form_field" appearance="fill" >
+    <mat-label>Enter password</mat-label>
+    <input type="password" matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher" [(ngModel)]="password">
+    <button *ngIf="password" matSuffix mat-icon-button aria-label="Clear" (click)="password=''">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-error *ngIf="passwordFormControl.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <br><br>
+
+  <button mat-raised-button color="primary" (click)="CreateNewUser()">Create new user</button>
+  <div class="space"></div>
+  <button mat-raised-button color="primary" (click)="GoToLogin()">Already have an account? Click here to login</button>
+</div>
