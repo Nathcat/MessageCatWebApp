@@ -90,6 +90,7 @@
 .messages {
     display: flex;
     flex-direction: column;
+    padding:10px;
 }
 
 /*
@@ -107,7 +108,7 @@
 .friend-messages {
     display:flex;
   height: fit-content;
-  min-width: 40px;
+  min-width: 50px;
   width: fit-content;
   background: #4151af;
   position: relative;
@@ -142,7 +143,7 @@
     color: black;
     padding: 10px;
     border-radius:25px;
-    right:50%;
+    left:0px;
 }
 .user-messages:before {
   content: "";
