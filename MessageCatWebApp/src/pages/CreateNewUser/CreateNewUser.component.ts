@@ -4,6 +4,7 @@ import { AppModule } from '../app/app.module';
 import { LoginModule } from '../Login/Login.module'
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import { Md5 } from 'ts-md5';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -35,6 +36,8 @@ export class CreateNewUserComponent {
       return;
     }
     
+    var password = Md5.hashStr(this.password);
+
     const response = await fetch("http://192.168.1.26:8080/api/createuser", {
       method: "POST",
       headers: {
@@ -42,7 +45,7 @@ export class CreateNewUserComponent {
       },
       body: JSON.stringify({
         "username": this.username,
-        "password": this.password,
+        "password": password,
         "email": this.email
       })
     })
@@ -56,7 +59,7 @@ export class CreateNewUserComponent {
     });
 
     window.sessionStorage.setItem("username", response.username);
-    window.sessionStorage.setItem("password", this.password);
+    window.sessionStorage.setItem("password", password);
     window.sessionStorage.setItem("email", this.email);
     window.sessionStorage.setItem("ID", response.ID);
     window.sessionStorage.setItem("pfp_path", response.pfp_path);
