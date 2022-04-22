@@ -38,7 +38,7 @@ export class CreateNewUserComponent {
     
     var password = Md5.hashStr(this.password);
 
-    const response = await fetch("http://localhost:8080/api/createuser", {
+    const response = await fetch("http://192.168.1.46:8080/api/createuser", {
       method: "POST",
       headers: {
         "Accept": "application/json"
