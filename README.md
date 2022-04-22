@@ -1,5 +1,9 @@
 # MessageCat
 
+MessageCat is an internet messaging application with a backend written in Node.Js.
+This is a front end web application written using Angular + Typescript that uses the backend.
+
+Auto generated readme by Angular:
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
 
 ## Development server
