@@ -1,0 +1,26 @@
+<div class="page-container">
+
+  <div class="settings-container">
+    <div *ngIf="!isLoadingSettings" class="settings">
+      <h2>Settings</h2>
+      <mat-checkbox [(ngModel)]="sendEmailNotifications">Send email notifications</mat-checkbox>
+    </div>
+
+    <div class="loading-spinner-container">
+      <mat-spinner *ngIf="isLoadingSettings"></mat-spinner>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <mat-divider></mat-divider>
+
+  <div class="height-spacer"></div>
+
+  <div class="footer">
+    <button mat-raised-button color="secondary" (click)="GoToAppPage()">Back</button>
+    <div class="width-spacer"></div>
+    <button mat-raised-button color="primary" (click)="ApplySettings()">Apply changes</button>
+  </div>
+
+</div>

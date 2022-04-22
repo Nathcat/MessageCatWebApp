@@ -1,0 +1,45 @@
+.page-container {
+    display:flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+    width: 100%;
+}
+
+.settings-container {
+    flex-grow:1;
+    overflow-y: scroll;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    place-content: center end;
+    padding: 10px;
+}
+
+.height-spacer {
+    width: 100%;
+    height:10px;
+}
+
+.width-spacer {
+    width: 10px;
+    height: 100%;
+}
+
+.loading-spinner-container {
+    display:flex;
+
+    justify-content: center;
+    align-items: center;
+
+    width:100%;
+    height:100%;
+}

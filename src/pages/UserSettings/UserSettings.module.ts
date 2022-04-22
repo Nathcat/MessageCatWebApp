@@ -1,40 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import { UserSettingsComponent } from './UserSettings.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatCommonModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatRippleModule } from '@angular/material/core'
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
-    AppComponent
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatCommonModule,
     MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatDividerModule,
-    MatRippleModule,
     MatInputModule,
     FormsModule,
-    MatTabsModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatDividerModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [UserSettingsComponent]
 })
-export class AppModule { }
+export class UserSettingsModule { }
