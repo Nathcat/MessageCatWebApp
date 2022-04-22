@@ -11,7 +11,7 @@ import { UserSettingsModule } from '../UserSettings/UserSettings.module';
 export class AppComponent {
   title = "MessageCat";
   Json = JSON;
-  pfp_req_url = "http://192.168.1.46:8080/api/pfps/";
+  pfp_req_url = "http://messagecat.nathcat.cloudns.cl:8080/api/pfps/";
 
   username = "";
   password = "";
@@ -65,7 +65,7 @@ export class AppComponent {
     while (true) {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const response = await fetch("http://192.168.1.46:8080/api/getfriends", {
+      const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getfriends", {
         method: "POST",
         body: JSON.stringify({
           "ID": this.GetSessionValueNullSafe("ID")
@@ -105,7 +105,7 @@ export class AppComponent {
       "content": this.message
     });
 
-    const response = await fetch("http://192.168.1.46:8080/api/sendmessage", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/sendmessage", {
       method: "POST",
       body: messageJson
     }).then((response) => {
@@ -126,7 +126,7 @@ export class AppComponent {
         continue;
       }
 
-      const response = await fetch("http://192.168.1.46:8080/api/getmessages", {
+      const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getmessages", {
         method: "POST",
         body: JSON.stringify({
           "userID": this.GetSessionValueNullSafe("ID"),
@@ -160,7 +160,7 @@ export class AppComponent {
   }
 
   async SearchForUser() {
-    const response = await fetch("http://192.168.1.46:8080/api/searchforuser", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/searchforuser", {
       method: "POST",
       body: JSON.stringify({
         "username": this.userSearchField + "%"
@@ -176,7 +176,7 @@ export class AppComponent {
   }
 
   async SendFriendRequest(user: string) {
-    const response = await fetch("http://192.168.1.46:8080/api/sendfriendrequest", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/sendfriendrequest", {
       method: "POST",
       body: JSON.stringify({
         "senderID": this.GetSessionValueNullSafe("ID"),
@@ -198,7 +198,7 @@ export class AppComponent {
     while (true) {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const response = await fetch("http://192.168.1.46:8080/api/getfriendrequests", {
+      const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getfriendrequests", {
         method: "POST",
         body: JSON.stringify({
           "ID": this.GetSessionValueNullSafe("ID")
@@ -216,7 +216,7 @@ export class AppComponent {
       let friend_requests = [];
 
       for (let i = 0; i < requests.length; i++) {
-        const response = await fetch("http://192.168.1.46:8080/api/getuser/id", {
+        const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getuser/id", {
           method: "POST",
           body: JSON.stringify({
             "ID": requests[i].senderID
@@ -244,7 +244,7 @@ export class AppComponent {
   }
 
   async AcceptFriendRequest(senderData: string) {
-    const response = await fetch("http://192.168.1.46:8080/api/acceptfriendrequest", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/acceptfriendrequest", {
       method: "POST",
       body: JSON.stringify({
         "senderID": JSON.parse(senderData).ID,
@@ -263,7 +263,7 @@ export class AppComponent {
   }
 
   async DeclineFriendRequest(senderData: string) {
-    const response = await fetch("http://192.168.1.46:8080/api/declinefriendrequest", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/declinefriendrequest", {
       method: "POST",
       body: JSON.stringify({
         "senderID": JSON.parse(senderData).ID,

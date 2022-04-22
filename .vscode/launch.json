@@ -7,14 +7,14 @@
       "type": "pwa-chrome",
       "request": "launch",
       "preLaunchTask": "npm: start",
-      "url": "http://192.168.1.46:4200/"
+      "url": "http://messagecat.nathcat.cloudns.cl:4200/"
     },
     {
       "name": "ng test",
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: test",
-      "url": "http://192.168.1.46:9876/debug.html"
+      "url": "http://messagecat.nathcat.cloudns.cl:9876/debug.html"
     }
   ]
 }

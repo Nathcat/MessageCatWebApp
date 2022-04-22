@@ -31,7 +31,7 @@ export class UserSettingsComponent {
   }
 
   async ApplySettings() {
-    const response = await fetch("http://192.168.1.46:8080/api/applyusersettings", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/applyusersettings", {
       method: "POST",
       body: JSON.stringify({
         "ID": this.GetSessionValueNullSafe("ID"),
@@ -52,7 +52,7 @@ export class UserSettingsComponent {
   async GetUserSettings() {
     this.isLoadingSettings = true;
 
-    const response = await fetch("http://192.168.1.46:8080/api/getusersettings", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getusersettings", {
       method: "POST",
       body: JSON.stringify({
         "ID": this.GetSessionValueNullSafe("ID")
