@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { LoginModule } from '../Login/Login.module';
+import { UserSettingsModule } from '../UserSettings/UserSettings.module';
 
 @Component({
   selector: 'app-root',
@@ -56,7 +57,8 @@ export class AppComponent {
   }
 
   OpenUserSettings() {
-    alert("This feature is not yet implemented");
+    platformBrowserDynamic().bootstrapModule(UserSettingsModule)
+        .catch(err => console.error(err));
   }
 
   async GetFriendsAsync() {
