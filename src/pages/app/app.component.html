@@ -21,16 +21,73 @@
 <mat-drawer-container class="drawer-container" autosize>
     <!--Sidebar-->
     <mat-drawer class="drawer-content" #drawer mode="side" opened>
-        <p class="no-friends-message" *ngIf="friends.length == 0">It looks a little quiet here...</p>
 
-        <div *ngFor="let friend of friends" class="contact-box" >
-            <span matRipple [matRippleColor]="contactBoxRippleColour" class="contact-content" (click)="selectedFriendString=friend">
-                <img class="user-pfp" src="{{pfp_req_url + Json.parse(friend).pfp_path}}">
-                <div class="space"></div>
-                <p>{{Json.parse(friend).username}}</p>
-            </span>
-            <mat-divider></mat-divider>
-        </div>
+        <mat-tab-group>
+
+            <mat-tab label="Friends">
+                <div class="no-friends-message">
+                    <p *ngIf="friends.length == 0">It looks a little quiet here...</p>
+                </div>
+
+                <div *ngFor="let friend of friends" class="contact-box" >
+                    <span *ngIf="friend != ''" matRipple [matRippleColor]="contactBoxRippleColour" class="contact-content" (click)="selectedFriendString=friend">
+                        <img class="user-pfp" src="{{pfp_req_url + Json.parse(friend).pfp_path}}">
+                        <div class="space"></div>
+                        <p>{{Json.parse(friend).username}}</p>
+                    </span>
+                    <mat-divider *ngIf="friend != ''"></mat-divider>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Find people">
+                <div class="add-friend-container">
+
+                    <mat-form-field  appearance="outline">
+                        <input matInput [(ngModel)]="userSearchField" placeholder="Who are you looking for?">
+                        <button matSuffix mat-icon-button (click)="SearchForUser()">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <div *ngFor="let user of userSearchResults">
+                        <div class="user-search-result">
+                            <img *ngIf="user != ''" class="user-pfp" src="{{pfp_req_url + Json.parse(user).pfp_path}}">
+                            <div *ngIf="user != ''" class="space"></div>
+                            <p *ngIf="user != ''" >{{Json.parse(user).username + "#" + Json.parse(user).ID}}</p>
+                            <span class="big-spacer"></span>
+                            <button *ngIf="user != ''" mat-icon-button aria-label="Send friend request" (click)="SendFriendRequest(user)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+
+                        <mat-divider *ngIf="user != ''"></mat-divider>
+                    </div>
+
+                </div>
+
+            </mat-tab>
+
+            <mat-tab label="Friend requests">
+                <div *ngFor="let request of friendRequests">
+                    <div class="user-search-result">
+                        <img *ngIf="request != ''" class="user-pfp" src="{{pfp_req_url + Json.parse(request).pfp_path}}">
+                        <div *ngIf="request != ''" class="space"></div>
+                        <p *ngIf="request != ''" >{{Json.parse(request).username + "#" + Json.parse(request).ID}}</p>
+                        <span class="big-spacer"></span>
+                        <button *ngIf="request != ''" mat-icon-button aria-label="Accept friend request" (click)="AcceptFriendRequest(request)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <button *ngIf="request != ''" mat-icon-button aria-label="Decline friend request" (click)="DeclineFriendRequest(request)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+
+                    <mat-divider *ngIf="request != ''"></mat-divider>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+
     </mat-drawer>
 
     <!--Main content, this is the conversation view-->
@@ -45,11 +102,13 @@
         </mat-toolbar>
 
         <!--Conversation content-->
-        <span class="conversation-messages-container">
+        <span class="conversation-messages-container" #messageContentScrollBox [scrollTop]="messageContentScrollBox.scrollHeight">
             <div class="messages">
-                <div class="message-row" *ngFor="let message of messages">
-                    <span *ngIf="IsUserMessage(Json.parse(message).senderID)" class="big-spacer"></span>
-                    <p class="{{GetMessageClassName(Json.parse(message).senderID)}}">{{Json.parse(message).content}}</p>
+                <div *ngFor="let message of messages" class="{{GetMessageRowName(message)}}">
+                    <div *ngIf="message != ''">
+                        <div *ngIf="IsUserMessage(Json.parse(message).senderID)" class="big-spacer"></div>
+                        <p class="{{GetMessageClassName(Json.parse(message).senderID)}}">{{Json.parse(message).content}}</p>
+                    </div>
                 </div>
             </div>
         </span>
@@ -58,7 +117,7 @@
         <mat-divider></mat-divider>
         <span>
            <mat-form-field class="message-field" appearance="outline">
-              <input matInput [(ngModel)]="message" placeholder="Enter message">
+              <input matInput [(ngModel)]="message" placeholder="Enter message" (keyup.enter)="SendMessage()">
               <button *ngIf="message" matSuffix mat-icon-button aria-label="Clear" (click)="message=''">
                   <mat-icon>close</mat-icon>
               </button>

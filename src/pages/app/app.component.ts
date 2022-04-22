@@ -1,3 +1,4 @@
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
 import { Component } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -11,7 +12,7 @@ import { LoginModule } from '../Login/Login.module';
 export class AppComponent {
   title = "MessageCat";
   Json = JSON;
-  pfp_req_url = "http://192.168.1.26:8080/api/pfps/";
+  pfp_req_url = "http://localhost:8080/api/pfps/";
 
   username = "";
   password = "";
@@ -21,6 +22,9 @@ export class AppComponent {
   selectedFriendString: string = "";
   message: string = "";
   messages: string[] = [];
+  userSearchField: string = "";
+  userSearchResults: string[] = [];
+  friendRequests: string[] = [];
 
   constructor() {
     if (window.sessionStorage.getItem("username") === null || window.sessionStorage.getItem("password") === null) {
@@ -31,8 +35,9 @@ export class AppComponent {
       this.username = this.GetSessionValueNullSafe("username");
       this.password = this.GetSessionValueNullSafe("password");
       this.pfp_path = this.pfp_req_url + this.GetSessionValueNullSafe("pfp_path");
-      this.GetFriends();
+      this.GetFriendsAsync();
       this.GetMessagesAsync();
+      this.GetFriendRequestsAsync();
     }
   }
 
@@ -56,20 +61,36 @@ export class AppComponent {
     alert("This feature is not yet implemented!");
   }
 
-  async GetFriends() {
-    const response = await fetch("http://192.168.1.26:8080/api/getfriends", {
-      method: "POST",
-      body: JSON.stringify({
-        "ID": this.GetSessionValueNullSafe("ID")
-      })
-    }).then((response) => {
-      return response.text();
-    });
+  async GetFriendsAsync() {
+    while (true) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-    let stringFriends = response.split("<[SePaRaToR]>");
-    this.friends = stringFriends.map((item) => {
-      return item;
-    });
+      const response = await fetch("http://localhost:8080/api/getfriends", {
+        method: "POST",
+        body: JSON.stringify({
+          "ID": this.GetSessionValueNullSafe("ID")
+        })
+      }).then((response) => {
+        return response.text();
+      });
+
+      let stringFriends = response.split("<[SePaRaToR]>");
+      if (stringFriends[0] == '') {
+        continue;
+      }
+
+      this.friends = stringFriends.sort((a, b) => {
+        if (parseInt(JSON.parse(a).ID) > parseInt(JSON.parse(b).ID)) {
+          return 1;
+        }
+        else if (parseInt(JSON.parse(a).ID) < parseInt(JSON.parse(b).ID)) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      });
+    }
   }
 
   async SendMessage() {
@@ -84,7 +105,7 @@ export class AppComponent {
       "content": this.message
     });
 
-    const response = await fetch("http://192.168.1.26:8080/api/sendmessage", {
+    const response = await fetch("http://localhost:8080/api/sendmessage", {
       method: "POST",
       body: messageJson
     }).then((response) => {
@@ -105,7 +126,7 @@ export class AppComponent {
         continue;
       }
 
-      const response = await fetch("http://192.168.1.26:8080/api/getmessages", {
+      const response = await fetch("http://localhost:8080/api/getmessages", {
         method: "POST",
         body: JSON.stringify({
           "userID": this.GetSessionValueNullSafe("ID"),
@@ -136,5 +157,136 @@ export class AppComponent {
 
   IsUserMessage(senderID: string) {
     return senderID == this.GetSessionValueNullSafe("ID");
+  }
+
+  async SearchForUser() {
+    const response = await fetch("http://localhost:8080/api/searchforuser", {
+      method: "POST",
+      body: JSON.stringify({
+        "username": this.userSearchField + "%"
+      })
+    }).then((response) => {
+      return response.text();
+    });
+
+    this.userSearchResults = response.split("<[SePaRaToR]>");
+    if (this.userSearchResults.length == 1 && this.userSearchResults[0] == '') {
+      alert("No results!");
+    }
+  }
+
+  async SendFriendRequest(user: string) {
+    const response = await fetch("http://localhost:8080/api/sendfriendrequest", {
+      method: "POST",
+      body: JSON.stringify({
+        "senderID": this.GetSessionValueNullSafe("ID"),
+        "recipientID": JSON.parse(user).ID
+      })
+    }).then((response) => {
+      return response.text();
+    });
+
+    if (response == "OK") {
+      alert("Friend request sent");
+    }
+    else {
+      alert("Something went wrong!");
+    }
+  }
+
+  async GetFriendRequestsAsync() {
+    while (true) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const response = await fetch("http://localhost:8080/api/getfriendrequests", {
+        method: "POST",
+        body: JSON.stringify({
+          "ID": this.GetSessionValueNullSafe("ID")
+        })
+      }).then((response) => {
+        return response.text();
+      });
+
+      if (response.split("<[SePaRaToR]>")[0] == '') {
+        this.friendRequests = [];
+        continue;
+      }
+
+      let requests = response.split("<[SePaRaToR]>").map((item) => { return JSON.parse(item); });
+      let friend_requests = [];
+
+      for (let i = 0; i < requests.length; i++) {
+        const response = await fetch("http://localhost:8080/api/getuser/id", {
+          method: "POST",
+          body: JSON.stringify({
+            "ID": requests[i].senderID
+          })
+        }).then((response) => {
+          return response.json();
+        });
+
+        friend_requests.push(JSON.stringify(response));
+      }
+
+      friend_requests = friend_requests.sort((a, b) => {
+        if (parseInt(JSON.parse(a).ID) > parseInt(JSON.parse(b).ID)) {
+          return 1;
+        }
+        else if (parseInt(JSON.parse(a).ID) < parseInt(JSON.parse(b).ID)) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      });
+      this.friendRequests = friend_requests;
+    }
+  }
+
+  async AcceptFriendRequest(senderData: string) {
+    const response = await fetch("http://localhost:8080/api/acceptfriendrequest", {
+      method: "POST",
+      body: JSON.stringify({
+        "senderID": JSON.parse(senderData).ID,
+        "recipientID": this.GetSessionValueNullSafe("ID")
+      })
+    }).then((response) => {
+      return response.text();
+    });
+
+    if (response == "OK") {
+      alert("You are now friends with " + JSON.parse(senderData).username);
+    }
+    else {
+      alert("Something went wrong!");
+    }
+  }
+
+  async DeclineFriendRequest(senderData: string) {
+    const response = await fetch("http://localhost:8080/api/declinefriendrequest", {
+      method: "POST",
+      body: JSON.stringify({
+        "senderID": JSON.parse(senderData).ID,
+        "recipientID": this.GetSessionValueNullSafe("ID")
+      })
+    }).then((response) => {
+      return response.text();
+    });
+
+    if (response == "OK") {
+      alert("Declined friend request");
+    }
+    else {
+      alert("Something went wrong!");
+    }
+  }
+
+  GetMessageRowName(message: string) {
+    if (JSON.parse(message).senderID == this.GetSessionValueNullSafe("ID")) {
+      return "user-message-row";
+    }
+    else {
+      return "friend-message-row";
+    }
   }
 }
