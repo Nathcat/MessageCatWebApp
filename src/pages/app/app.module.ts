@@ -30,7 +30,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatRippleModule,
     MatInputModule,
     FormsModule,
-    MatTabsModule
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

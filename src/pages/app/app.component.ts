@@ -1,6 +1,4 @@
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
 import { Component } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { LoginModule } from '../Login/Login.module';
 
@@ -58,7 +56,7 @@ export class AppComponent {
   }
 
   OpenUserSettings() {
-    alert("This feature is not yet implemented!");
+    alert("This feature is not yet implemented");
   }
 
   async GetFriendsAsync() {
