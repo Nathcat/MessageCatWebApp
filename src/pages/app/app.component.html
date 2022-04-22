@@ -112,8 +112,8 @@
         <!--Conversation content-->
         <span class="conversation-messages-container" #messageContentScrollBox [scrollTop]="messageContentScrollBox.scrollHeight">
             <div class="messages">
-                <div *ngFor="let message of messages" class="{{GetMessageRowName(message)}}">
-                    <div *ngIf="message != ''">
+                <div *ngFor="let message of messages">
+                    <div *ngIf="message != ''" class="{{GetMessageRowName(message)}}">
                         <div *ngIf="IsUserMessage(Json.parse(message).senderID)" class="big-spacer"></div>
                         <p class="{{GetMessageClassName(Json.parse(message).senderID)}}">{{Json.parse(message).content}}</p>
                     </div>
