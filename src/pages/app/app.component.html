@@ -1,4 +1,5 @@
 <mat-toolbar color="primary">
+    
     <button mat-icon-button aria-label="Menu" (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
     </button>
@@ -8,9 +9,16 @@
     <span>MessageCat</span>
 
     <span class="big-spacer"></span>
+
+    <img class="user-pfp" src="{{pfp_path}}" />
+    <div class="space"></div>
+    <p>{{username}}</p>
+
+    <span class="big-spacer"></span>
+    
     <span>
         <button mat-icon-button (click)="OpenUserSettings()">
-            <img class="user-pfp" src="{{pfp_path}}" />
+            <mat-icon>settings</mat-icon>
         </button>
 
         <button mat-raised-button color="secondary" (click)="Logout()">Logout</button>
