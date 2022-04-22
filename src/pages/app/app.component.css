@@ -16,7 +16,7 @@
 }
 
 .contact-box {
-    width: 300px;
+    width: 100%;
     height: fit-content;
 }
 
@@ -31,9 +31,9 @@
 }
 
 .no-friends-message {
-    width: 300px;
-    height: 100px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    place-items: center center;
 }
 
 .no-friend-selected-message {
@@ -79,6 +79,7 @@
 
 .conversation-messages-container {
     flex-grow: 1;
+    overflow-y: scroll;
 }
 
 .conversation-toolbar {
@@ -160,7 +161,27 @@
   box-shadow:inherit;
 }
 
-.message-row {
+.friend-message-row {
     display: flex;
     flex-direction: row;
+    place-content: center start;
+}
+
+.user-message-row {
+    display: flex;
+    flex-direction: row;
+    place-content: center end;
+}
+
+.add-friend-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-items: center;
+}
+
+.user-search-result {
+    display: flex;
+    flex-direction: row;
+    place-items: center center;
 }

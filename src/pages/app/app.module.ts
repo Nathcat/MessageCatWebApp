@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core'
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FormsModule } from '@angular/forms';
     MatRippleModule,
     MatInputModule,
     FormsModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -35,7 +35,7 @@ export class LoginComponent {
 
     var password = Md5.hashStr(this.password);
 
-    const response = await fetch("http://192.168.1.26:8080/api/getuser", {
+    const response = await fetch("http://localhost:8080/api/getuser", {
       method: "POST",
       headers: {
         "Accept": "application/json"
