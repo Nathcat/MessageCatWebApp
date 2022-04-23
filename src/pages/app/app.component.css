@@ -185,3 +185,19 @@
     flex-direction: row;
     place-items: center center;
 }
+
+.online-icon {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(0, 255, 0);
+    appearance: fill;
+    border-radius: 10px;
+}
+
+.offline-icon {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(255, 0, 0);
+    appearance: fill;
+    border-radius: 10px;
+}
