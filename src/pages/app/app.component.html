@@ -37,11 +37,14 @@
                     <p *ngIf="friends.length == 0">It looks a little quiet here...</p>
                 </div>
 
-                <div *ngFor="let friend of friends" class="contact-box" >
+                <div *ngFor="let friend of friends; index as i" class="contact-box" >
                     <span *ngIf="friend != ''" matRipple [matRippleColor]="contactBoxRippleColour" class="contact-content" (click)="selectedFriendString=friend">
                         <img class="user-pfp" src="{{pfp_req_url + Json.parse(friend).pfp_path}}">
                         <div class="space"></div>
                         <p>{{Json.parse(friend).username}}</p>
+                        <div class="big-spacer"></div>
+                        <div *ngIf="friendOnlineStates[i]" class="online-icon"></div>
+                        <div *ngIf="!friendOnlineStates[i]" class="offline-icon"></div>
                     </span>
                     <mat-divider *ngIf="friend != ''"></mat-divider>
                 </div>

@@ -24,6 +24,7 @@ export class AppComponent {
   userSearchField: string = "";
   userSearchResults: string[] = [];
   friendRequests: string[] = [];
+  friendOnlineStates: boolean[] = [];
 
   constructor() {
     if (window.sessionStorage.getItem("username") === null || window.sessionStorage.getItem("password") === null) {
@@ -37,6 +38,8 @@ export class AppComponent {
       this.GetFriendsAsync();
       this.GetMessagesAsync();
       this.GetFriendRequestsAsync();
+      this.HeartbeatAsync();
+      this.GetFriendOnlineStates();
     }
   }
 
@@ -287,6 +290,61 @@ export class AppComponent {
     }
     else {
       return "friend-message-row";
+    }
+  }
+
+  async HeartbeatAsync() {
+    var response: string;
+
+    while (true) {
+      await new Promise(resolve => setTimeout(resolve, 10000));
+
+      response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/heartbeat", {
+        method: "POST",
+        body: JSON.stringify({
+          "ID": this.GetSessionValueNullSafe("ID")
+        })
+      }).then((response) => {
+        return response.text();
+      });
+    }
+  }
+
+  async GetFriendOnlineStates() {
+    while (true) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      let responses = [];
+
+      for (let i = 0; i < this.friends.length; i++) {
+        responses.push(await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getuseractivestate", {
+          method: "POST",
+          body: JSON.stringify({
+            "ID": JSON.parse(this.friends[i]).ID
+          })
+        }).then((response) => {
+          return response.json();
+        }));
+      }
+
+      responses = responses.sort((a, b) => {
+        if (parseInt(a.ID) > parseInt(b.ID)) {
+          return 1;
+        }
+        else if (parseInt(a.ID) < parseInt(b.ID)) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      });
+
+      let formattedResponses = [];
+      for (let i = 0; i < responses.length; i++) {
+        formattedResponses.push(responses[i].active === 1);
+      }
+
+      this.friendOnlineStates = formattedResponses;
     }
   }
 }
