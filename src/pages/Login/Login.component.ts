@@ -35,7 +35,7 @@ export class LoginComponent {
 
     var password = Md5.hashStr(this.password);
 
-    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getuser", {
+    const response = await fetch("http://messagecat.nathcat.cloudns.cl:8080/api/getuser/email", {
       method: "POST",
       headers: {
         "Accept": "application/json"
